@@ -1,4 +1,5 @@
 # Gợi ý viết báo cáo học thuật
+**Nhóm 5 · Trường Đại học Giao thông Vận tải TP. Hồ Chí Minh (UTH)**
 ## Đề tài: Xuất nhập khẩu hàng hóa của Việt Nam theo thị trường (1995–2025) và hàm ý cho logistics
 
 > Tài liệu này dành cho nhóm sinh viên năm nhất ngành Logistics & Quản lý chuỗi cung ứng. Nó đi kèm file `bao_cao.html`. Mọi con số ở đây lấy từ bảng V09.06, V09.12 và V09.01 của Tổng cục Thống kê / Cục Thống kê (NSO), hoặc do nhóm tự tính từ các bảng đó. Năm 2025 là **số liệu sơ bộ**.
@@ -22,6 +23,39 @@
 | Phụ lục | Bảng số liệu, chuẩn hóa tên nước, phân công nhóm | — |
 
 **Lưu ý:** mỗi hình và bảng cần có số thứ tự, tên, đơn vị và dòng "Nguồn:" ngay bên dưới.
+
+---
+
+## 1a. Mẫu trang bìa (điền vào chỗ trống)
+
+```
+                 BỘ GIÁO DỤC VÀ ĐÀO TẠO
+   TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI TP. HỒ CHÍ MINH (UTH)
+                 KHOA: ……………………………………
+
+                    [Logo UTH]
+
+                 BÁO CÁO BÀI TẬP NHÓM
+          HỌC PHẦN: ……………………………… (Mã HP: ………)
+
+   XUẤT NHẬP KHẨU HÀNG HÓA CỦA VIỆT NAM THEO THỊ TRƯỜNG
+     GIAI ĐOẠN 1995–2025: MỨC ĐỘ TẬP TRUNG, CÁN CÂN
+           VÀ HÀM Ý CHO TUYẾN VẬN TẢI, LOGISTICS
+
+   Giảng viên hướng dẫn: ……………………………………
+   Lớp: ………………        Nhóm: 5
+
+   Thành viên nhóm 5:
+     1. [Họ và tên] – MSSV: [……] (Nhóm trưởng)
+     2. [Họ và tên] – MSSV: [……]
+     3. [Họ và tên] – MSSV: [……]
+     4. [Họ và tên] – MSSV: [……]
+     5. [Họ và tên] – MSSV: [……]
+
+              TP. Hồ Chí Minh, tháng 11 năm 2026
+```
+
+Ghi chú: giữ đúng tên trường "Trường Đại học Giao thông Vận tải TP. Hồ Chí Minh" ở trang bìa và chân trang. Họ tên thành viên do nhóm tự điền. File `bao_cao.html` đã ghi sẵn "Nhóm 5 · UTH" ở đầu trang, trang bìa, slide mở đầu, slide kết thúc và chân trang khi in.
 
 ---
 
