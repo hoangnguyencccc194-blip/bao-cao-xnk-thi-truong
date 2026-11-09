@@ -231,10 +231,13 @@ th.hx{color:var(--x)} th.hm{color:var(--m)} th.hb{color:var(--warn)}
 .toast{position:fixed;right:20px;bottom:20px;z-index:2000;background:var(--ink);color:var(--bg);border:0;border-left:5px solid #f3a712;padding:.7rem 1rem;font-size:.84rem;display:flex;gap:.6rem;align-items:center;box-shadow:4px 4px 0 rgba(0,0,0,.25);opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none}
 .toast.on{opacity:1;transform:none}
 /* ===== Slide deck ===== */
-#deck{position:fixed;inset:0;z-index:1000;background:#0a0f0d;display:none;align-items:center;justify-content:center}
+#deck{position:fixed;inset:0;z-index:1000;background:#0a0f0d;display:none;overflow:hidden;--s:.5;--rot:0deg}
 body.presenting{overflow:hidden}
-body.presenting #deck{display:flex}
-.stage{position:relative;width:min(100vw,calc(100vh*16/9));height:min(100vh,calc(100vw*9/16));background-color:var(--slide-bg);background-image:var(--pattern);background-size:4.8cqw 2.4cqw;color:var(--ink);overflow:hidden;container-type:size}
+body.presenting #deck{display:block}
+.stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform:translate(-50%,-50%) rotate(var(--rot)) scale(var(--s));transform-origin:center center;background-color:var(--slide-bg);background-image:var(--pattern);background-size:4.8cqw 2.4cqw;color:var(--ink);overflow:hidden;container-type:size}
+.rothint{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:1200;background:#f3a712;color:#1d1b17;font:600 13px/1.3 var(--font);padding:.45rem .8rem;display:none;white-space:nowrap;box-shadow:3px 3px 0 rgba(0,0,0,.35)}
+#deck.rot .rothint{display:block;animation:rh 5s forwards}
+@keyframes rh{0%,80%{opacity:1}100%{opacity:0;visibility:hidden}}
 .stage::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1.1cqw;background:linear-gradient(to bottom,#e4572e 0 33%,#1b998b 33% 66%,#f3a712 66%);z-index:3}
 .slide{position:absolute;inset:0;padding:12cqh 5.5cqw 10cqh;display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateY(1.8cqh);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),visibility .4s}
 .slide.on{opacity:1;visibility:visible;transform:none}
@@ -341,6 +344,29 @@ th.sort.asc::after{content:" ↑";color:var(--accent)} th.sort.desc::after{conte
 }
 @page:first{@top-right{content:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important;animation:none!important}}
+
+/* stage UI keeps a minimum real-pixel size on small screens */
+.deckbar{height:max(7cqh,calc(40px / var(--s)));font-size:max(1.75cqh,calc(12px / var(--s)))}
+.deckbar button,.deckbar select{font-size:max(1.65cqh,calc(12px / var(--s)));padding:.25em .6em}
+.deckbar .timer .tv{font-size:max(1.8cqh,calc(12px / var(--s)))}
+.deckbar .timer button{font-size:max(1.4cqh,calc(11px / var(--s)))}
+.schrome .tp,.schrome .sp,.schrome .br{font-size:max(1.6cqh,calc(9.5px / var(--s)))}
+.notes .nh{font-size:max(1.6cqh,calc(10px / var(--s)))}
+.notes p{font-size:max(2.2cqh,calc(12.5px / var(--s)))}
+.notes{bottom:calc(max(7cqh,calc(40px / var(--s))) + 1.2cqh)}
+.hint{font-size:max(1.5cqh,calc(9px / var(--s)));bottom:calc(max(7cqh,calc(40px / var(--s))) + 1cqh)}
+.slide{padding-bottom:calc(max(7cqh,calc(40px / var(--s))) + 3cqh)}
+@media (max-width:900px){.deckbar .src,.hint{display:none}.deckbar select{max-width:34cqw}}
+/* larger slide typography (stage is a fixed 1920×1080 canvas) */
+.slide .note{font-size:2cqh}
+.slide .kpi .lab{font-size:2.1cqh}
+.slide .kpi .bd{font-size:2cqh}
+.slide .kpi .v{font-size:11cqh}
+.slide .kpi .s{font-size:2.6cqh}
+.slide table{font-size:2.8cqh}
+.slide table.num td{font-size:2.7cqh}
+.slide thead th{font-size:1.9cqh}
+.slide.title .org-line{font-size:2.6cqh;max-width:88%}
 
 </style>
 </head>
@@ -675,6 +701,7 @@ Tỷ lệ mất cân bằng tuyến   = max(XK, NK) / min(XK, NK)</div>
 <footer class="foot"><b>Nhóm 5 · Trường Đại học Giao thông Vận tải TP. Hồ Chí Minh (UTH)</b> · Ngành Logistics &amp; Quản lý chuỗi cung ứng · Dữ liệu: Tổng cục Thống kê / Cục Thống kê (NSO), bảng V09.06, V09.12, V09.01 · Phím tắt: <b>P</b> trình chiếu, <b>T</b> đổi giao diện</footer>
 <div class="toast" id="toast" role="status"></div>
 <div id="deck" aria-hidden="true">
+ <div class="rothint" id="rotHint">↻ Xoay ngang điện thoại để xem slide lớn hơn</div>
  <div class="stage" id="stage">
   <div class="progress" id="progress"></div>
 
@@ -721,9 +748,9 @@ Tỷ lệ mất cân bằng tuyến   = max(XK, NK) / min(XK, NK)</div>
   </section>
 
   <section class="slide" data-tag="Phần II · Dòng hàng" data-speaker="Thành viên 2" data-time="45 giây" data-notes="Sankey cho thấy dòng chảy từ khu vực nguồn qua Việt Nam đến khu vực thị trường. Bên trái, Đông Bắc Á áp đảo. Bên phải, Bắc Mỹ lớn nhất, tiếp theo là Đông Bắc Á và châu Âu. Đây là hình ảnh của chuỗi cung ứng tam giác.">
-    <h2>Dòng hàng “tam giác”: Đông Bắc Á → Việt Nam → Bắc Mỹ</h2>
+    <h2>Dòng hàng: Đông Bắc Á → Việt Nam → Bắc Mỹ</h2>
     <div class="chart" id="s-sankey"></div>
-    <div class="note">Sankey 2025*, tỷ USD · khu vực do nhóm gộp từ các nước NSO liệt kê</div>
+    <div class="note">Sankey 2025*, tỷ USD · khu vực do nhóm gộp từ các nước NSO liệt kê · *Khu vực khác = Nam Á, Trung Đông, Mỹ Latinh, Châu Phi, Châu Đại Dương và phần chưa phân theo nước</div>
   </section>
 
   <section class="slide" data-tag="Phần III · Cán cân" data-speaker="Thành viên 3" data-time="50 giây" data-notes="Có 35 đối tác Việt Nam xuất siêu và 21 đối tác nhập siêu. Thặng dư với Hoa Kỳ khoảng 133,9 tỷ USD; thâm hụt với Trung Quốc khoảng 115,6 tỷ, Hàn Quốc 31,6 tỷ, Đài Loan 26,4 tỷ USD.">
@@ -951,7 +978,7 @@ OPTS.lane = function(p,c){
     lines.push({coords:[from,to],lineStyle:{width:Math.max(.6,r*FS(9)),color:col,opacity:.25+.55*r,curveness:.22}});
     pts.push({name:q.name,value:[q.lon,q.lat,v],itemStyle:{color:col},label:{show:k<9},x:xv,m:mv,b:b,region:q.region});
   });
-  var regs=[['Bắc Mỹ',-100,52],['Mỹ Latinh',-62,-22],['Châu Âu',8,64],['Châu Phi',18,-2],['Trung Đông',44,16],['Nam Á',78,14],['Đông Bắc Á',128,48],['ASEAN',112,-10],['Châu Đại Dương',148,-24]];
+  var regs=[['Bắc Mỹ',-100,52],['Mỹ Latinh',-62,-22],['Châu Âu',8,64],['Châu Phi',18,-2],['Trung Đông',44,16],['Nam Á',76,0],['Đông Bắc Á',128,48],['ASEAN',112,-10],['Châu Đại Dương',148,-24]];
   return base(p,{ legend:{show:false},
     tooltip:tip(p,{trigger:'item',formatter:function(q){ if(q.seriesType!=='scatter'||!q.data||q.data.x==null) return ''; var d=q.data; return '<b>'+d.name+'</b> · '+d.region+'<br>XK: <b>'+f1(d.x)+'</b> triệu USD<br>NK: <b>'+f1(d.m)+'</b> triệu USD<br>Cán cân: <b>'+sg(d.b)+'</b>'; }}),
     grid:G({left:8,right:8,top:8,bottom:8}),
@@ -959,16 +986,16 @@ OPTS.lane = function(p,c){
     yAxis:ax(p,{type:'value',min:-50,max:72,interval:20,axisLabel:{show:false},axisLine:{show:false},splitLine:{lineStyle:{color:p.line,opacity:.35}}}),
     series:[
       {type:'scatter',silent:true,symbolSize:0,data:regs.map(function(r){return {value:[r[1],r[2]],name:r[0]};}),label:{show:true,formatter:'{b}',color:p.muted,fontSize:FS(11),fontWeight:700,opacity:.7},z:1},
-      {type:'lines',coordinateSystem:'cartesian2d',polyline:false,data:lines,effect:{show:!c.static,period:5,trailLength:0.25,symbol:'arrow',symbolSize:FS(6),color:p.dark?'#fff':'#1d1b17'},z:2,animation:false},
-      {type:'scatter',labelLayout:{hideOverlap:true},data:pts,symbolSize:function(v){ return Math.max(FS(5),Math.sqrt(v[2]/vmax)*FS(34)); },itemStyle:{opacity:.85,borderColor:p.bg,borderWidth:1},label:{position:'right',formatter:'{b}',color:p.ink,fontSize:FS(11),fontWeight:600,textBorderColor:p.bg,textBorderWidth:2},z:3},
-      {type:'effectScatter',data:[{name:'Việt Nam',value:VN}],symbolSize:FS(12),itemStyle:{color:'#f3a712'},rippleEffect:{scale:3.5,brushType:'stroke'},label:{show:true,formatter:'Việt Nam',position:'bottom',color:p.warn,fontWeight:800,fontSize:FS(12)},z:4}
+      {type:'lines',coordinateSystem:'cartesian2d',polyline:false,data:lines,effect:{show:!c.static,period:5,trailLength:0.12,symbol:'arrow',symbolSize:FS(5),color:p.dark?'#fff':'#1d1b17'},z:2,animation:false},
+      {type:'scatter',zlevel:1,labelLayout:{hideOverlap:true},data:pts,symbolSize:function(v){ return Math.max(FS(5),Math.sqrt(v[2]/vmax)*FS(34)); },itemStyle:{opacity:.85,borderColor:p.bg,borderWidth:1},label:{position:'right',formatter:'{b}',color:p.ink,fontSize:FS(11),fontWeight:600,textBorderColor:p.bg,textBorderWidth:2},z:3},
+      {type:'effectScatter',zlevel:1,data:[{name:'Việt Nam',value:VN}],symbolSize:FS(12),itemStyle:{color:'#f3a712'},rippleEffect:{scale:3.5,brushType:'stroke'},label:{show:true,formatter:'Việt Nam',position:'bottom',color:p.warn,fontWeight:800,fontSize:FS(12)},z:4}
     ]});
 };
 function raceOpt(dir){ return function(p,c){
   var i=c.yi, T=dir==='x'?TX:TM, list=P.filter(function(q){return q['in'+dir.toUpperCase()];});
   return base(p,{ legend:{show:false}, animationDuration:0, animationDurationUpdate:c.anim||600, animationEasing:'linear', animationEasingUpdate:'linear',
     tooltip:tip(p,{trigger:'item',formatter:function(q){ var pp=list[q.dataIndex]; return '<b>'+pp.name+'</b> ('+yLab[i]+')<br>'+(dir==='x'?'XK':'NK')+': <b>'+f1(pp[dir][i])+'</b> triệu USD<br>Tỷ trọng: '+f1(sh(pp[dir][i],T[i]))+'%'; }}),
-    grid:G({left:110,right:112,top:6,bottom:22}),
+    grid:G({left:122,right:112,top:6,bottom:22}),
     xAxis:ax(p,{type:'value',max:'dataMax',axisLabel:{color:p.muted,fontSize:FS(10)}}),
     yAxis:ax(p,{type:'category',inverse:true,max:9,data:list.map(function(q){return q.name;}),axisLabel:{color:p.ink2,fontSize:FS(12),fontWeight:600},animationDuration:300,animationDurationUpdate:300}),
     series:[{type:'bar',realtimeSort:true,data:list.map(function(q){ return {value:bn(q[dir][i])||0,itemStyle:{color:rc(q.region),borderRadius:[0,5,5,0]}}; }),
@@ -979,9 +1006,12 @@ function raceOpt(dir){ return function(p,c){
 OPTS.raceX=raceOpt('x'); OPTS.raceM=raceOpt('m');
 OPTS.sankey = function(p,c){
   var i=c.yi, nodes=[{name:'Việt Nam',itemStyle:{color:'#f3a712'},depth:1}], links=[];
-  function add(dir){ var T=dir==='x'?TX:TM, rest=T[i]-listedSum(dir,i);
-    REGIONS.concat(['Chưa phân theo nước']).forEach(function(r){ var v = r==='Chưa phân theo nước'?rest:regionSum(dir,i,r); if(!(v>0.5)) return; var nm=(dir==='m'?'NK · ':'XK · ')+r;
-      nodes.push({name:nm,itemStyle:{color:rc(r)},depth:dir==='m'?0:2}); v=bn(v);
+  var MAJOR=['Đông Bắc Á','ASEAN','Châu Âu','Bắc Mỹ'];
+  function add(dir){ var T=dir==='x'?TX:TM, rest=T[i]-listedSum(dir,i), other=0;
+    var regs=REGIONS.concat(['Chưa phân theo nước']);
+    if(c.fixed){ regs.forEach(function(r){ if(MAJOR.indexOf(r)<0) other += (r==='Chưa phân theo nước'?rest:regionSum(dir,i,r)); }); regs=MAJOR.concat(['Khu vực khác*']); }
+    regs.forEach(function(r){ var v = r==='Khu vực khác*'?other:(r==='Chưa phân theo nước'?rest:regionSum(dir,i,r)); if(!(v>0.5)) return; var nm=(dir==='m'?'NK · ':'XK · ')+r;
+      nodes.push({name:nm,itemStyle:{color:r==='Khu vực khác*'?'#8a8577':rc(r)},depth:dir==='m'?0:2}); v=bn(v);
       links.push(dir==='m'?{source:nm,target:'Việt Nam',value:v}:{source:'Việt Nam',target:nm,value:v}); }); }
   add('m'); add('x');
   return base(p,{ legend:{show:false}, tooltip:tip(p,{trigger:'item',formatter:function(q){ if(q.dataType==='edge') return q.data.source.replace(/^(NK|XK) · /,'')+' → '+q.data.target.replace(/^(NK|XK) · /,'')+': <b>'+f1(q.data.value)+'</b> tỷ USD'; return '<b>'+q.name+'</b>: '+f1(q.value)+' tỷ USD'; }}),
@@ -992,12 +1022,12 @@ OPTS.sankey = function(p,c){
 };
 OPTS.bal = function(p,c){
   var i=c.yi, both=P.filter(function(q){return q.x[i]!=null&&q.m[i]!=null;}).map(function(q){return {n:q.name,b:q.x[i]-q.m[i]};}).sort(function(a,b){return a.b-b.b;});
-  var sel=both.slice(0,10).concat(both.slice(-10));
+  var NB=c.fixed?8:10, sel=both.slice(0,NB).concat(both.slice(-NB));
   return base(p,{ legend:{show:false}, tooltip:tip(p,{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(ps){ return '<b>'+ps[0].name+'</b><br>Cán cân: <b>'+sg(ps[0].value)+'</b> tỷ USD'; }}),
-    grid:G({left:110,right:60,top:6,bottom:24}), xAxis:ax(p,{type:'value',name:'tỷ USD',nameLocation:'end'}),
+    grid:{left:FS(12),right:FS(60),top:FS(6),bottom:FS(24),containLabel:true}, xAxis:ax(p,{type:'value',name:'tỷ USD',nameLocation:'end'}),
     yAxis:ax(p,{type:'category',data:sel.map(function(s){return s.n;}),axisLabel:{color:p.ink2,fontSize:FS(11)},axisLine:{show:false}}),
-    series:[{type:'bar',data:sel.map(function(s){return {value:bn(s.b),itemStyle:{color:s.b>=0?p.pos:p.neg,borderRadius:s.b>=0?[0,4,4,0]:[4,0,0,4]}};}),barMaxWidth:FS(16),
-      label:{show:true,position:'right',formatter:function(q){return sg(q.value);},color:p.ink2,fontSize:FS(10),fontFamily:'IBM Plex Mono, monospace'}}]});
+    series:[{type:'bar',data:sel.map(function(s){return {value:bn(s.b),label:{position:s.b>=0?'right':'left'},itemStyle:{color:s.b>=0?p.pos:p.neg,borderRadius:s.b>=0?[0,4,4,0]:[4,0,0,4]}};}),barMaxWidth:FS(16),
+      label:{show:true,formatter:function(q){return sg(q.value);},color:p.ink2,fontSize:FS(c.fixed?12:10),fontFamily:'IBM Plex Mono, monospace'}}]});
 };
 OPTS.uscn = function(p,c){
   var us=PBY['Hoa Kỳ'], cn=PBY['CHND Trung Hoa'];
@@ -1051,12 +1081,12 @@ OPTS.bubble = function(p,c){
   var pts=P.filter(function(q){return q[dir][I25]!=null&&q[dir][I15]!=null&&q[dir][I25]>=1500;}).map(function(q){ return {name:q.name,value:[+sh(q[dir][I25],T[I25]).toFixed(2),+cagr(q[dir],I15,I25).toFixed(1),q[dir][I25]],itemStyle:{color:rc(q.region)},region:q.region}; });
   var vmax=Math.max.apply(null,pts.map(function(d){return d.value[2];}));
   return base(p,{ legend:{show:false}, tooltip:tip(p,{trigger:'item',formatter:function(q){ if(!q.data||!q.data.region) return ''; return '<b>'+q.name+'</b> · '+q.data.region+'<br>Tỷ trọng 2025*: '+f1(q.value[0])+'%<br>CAGR 2015–2025: '+sg(q.value[1],'%/năm')+'<br>Trị giá 2025*: '+f1(q.value[2])+' triệu USD'; }}),
-    grid:G({left:54,right:24,top:24,bottom:44}),
+    grid:{left:FS(40),right:FS(24),top:FS(16),bottom:FS(30),containLabel:true},
     xAxis:ax(p,{type:'log',name:'Tỷ trọng 2025* (%, thang log)',nameLocation:'middle',nameGap:FS(26),min:0.2,max:60}),
-    yAxis:ax(p,{type:'value',name:'CAGR 2015–2025 (%/năm)'}),
-    series:[{type:'scatter',data:pts,symbolSize:function(v){return Math.max(FS(6),Math.sqrt(v[2]/vmax)*FS(60));},itemStyle:{opacity:.8,borderColor:p.bg,borderWidth:1},
+    yAxis:ax(p,{type:'value',name:'CAGR 2015–2025 (%/năm)',nameLocation:'middle',nameRotate:90,nameGap:FS(34)}),
+    series:[{type:'scatter',zlevel:1,labelLayout:{hideOverlap:true},data:pts,symbolSize:function(v){return Math.max(FS(6),Math.sqrt(v[2]/vmax)*FS(60));},itemStyle:{opacity:.8,borderColor:p.bg,borderWidth:1},
       label:{show:true,formatter:function(q){return q.value[0]>=1.4||Math.abs(q.value[1])>=20?q.name:'';},position:'top',color:p.ink,fontSize:FS(11),fontWeight:600},
-      markLine:{silent:true,symbol:'none',lineStyle:{color:p.muted,type:'dashed'},label:{formatter:'Tổng '+(dir==='x'?'XK':'NK')+': '+f1(tot)+'%/năm',color:p.muted,fontSize:FS(10)},data:[{yAxis:+tot.toFixed(1)}]}}]});
+      markLine:{silent:true,symbol:'none',lineStyle:{color:p.muted,type:'dashed'},label:{position:'insideStartTop',formatter:'Tổng '+(dir==='x'?'XK':'NK')+': '+f1(tot)+'%/năm',color:p.muted,fontSize:FS(10)},data:[{yAxis:+tot.toFixed(1)}]}}]});
 };
 OPTS.drill = function(p,c){
   var q=PBY[state.drill];
@@ -1078,11 +1108,13 @@ OPTS.context = function(p,c){
 var charts={};
 function mount(id,key,ctx){ var el=document.getElementById(id); if(!el||typeof echarts==='undefined') return; if(charts[id]) charts[id].inst.dispose();
   charts[id]={inst:echarts.init(el,null,{renderer:'canvas'}),key:key,ctx:ctx||{},el:el}; draw(id,true); }
-function scaleOf(c){ var st=c.el.closest('.stage'); return st?Math.max(1,st.clientHeight/600):1; }
+function scaleOf(c){ var st=c.el.closest('.stage'); return st?2.2:1; }
 function ctxOf(c){ var o={}; for(var k in c.ctx) o[k]=c.ctx[k]; if(o.yi==null) o.yi = c.ctx.fixed ? I25 : IY; o.w=c.el.clientWidth; o.h=c.el.clientHeight; return o; }
 function draw(id,full){ var c=charts[id]; if(!c) return; if(full&&(c.key==='raceX'||c.key==='raceM')&&c.drawn){ c.inst.dispose(); c.inst=echarts.init(c.el,null,{renderer:'canvas'}); } c.drawn=true; SC=scaleOf(c); try{ c.inst.setOption(OPTS[c.key](pal(),ctxOf(c)), !!full); } finally { SC=1; } }
 function redrawAll(){ Object.keys(charts).forEach(function(id){ draw(id,true); }); }
-function resizeAll(){ Object.keys(charts).forEach(function(id){ var c=charts[id]; c.inst.resize(); if(c.el.closest('.stage')) draw(id,true); }); }
+function resizeAll(){ fitStage(); Object.keys(charts).forEach(function(id){ var c=charts[id]; if(c.el.closest('.stage')) return; c.inst.resize(); }); }
+var ROT=false;
+function fitStage(){ var dk=document.getElementById('deck'); if(!dk) return; var vw=window.innerWidth, vh=window.innerHeight; ROT = vh>vw*1.15 && vw<900; var s = ROT? Math.min(vw/1080, vh/1920) : Math.min(vw/1920, vh/1080); dk.style.setProperty('--s',s.toFixed(4)); dk.style.setProperty('--rot',ROT?'90deg':'0deg'); dk.classList.toggle('rot',ROT); }
 var REPORT=[['r-context','context'],['r-lane','lane'],['r-raceX','raceX'],['r-raceM','raceM'],['r-sankey','sankey'],['r-bal','bal'],['r-uscn','uscn'],['r-gauge','gauge'],['r-hhi','hhi'],['r-bloc','bloc'],['r-bubble','bubble'],['r-drill','drill']];
 var YEARDEP=['r-lane','r-raceX','r-raceM','r-sankey','r-bal','r-gauge'];
 var SLIDE={'s-lane':['lane',{fixed:true,mode:'b'}],'s-raceX':['raceX',{fixed:true,mini:true}],'s-raceM':['raceM',{fixed:true,mini:true}],'s-sankey':['sankey',{fixed:true}],'s-bal':['bal',{fixed:true}],'s-uscn':['uscn',{}],'s-hhi':['hhi',{}],'s-gauge':['gauge',{fixed:true}],'s-bloc':['blocBar',{fixed:true}],'s-bubble':['bubble',{mode:'x'}]};
@@ -1189,9 +1221,9 @@ var dJump=document.getElementById('dJump');
 slides.forEach(function(s,k){ var o=document.createElement('option'); o.value=k; var h=s.querySelector('h2,h1'); o.textContent='Slide '+String(k+1).padStart(2,'0')+': '+(h?h.textContent.trim():''); dJump.appendChild(o); });
 dJump.addEventListener('change',function(){ Deck.go(+dJump.value); dJump.blur(); });
 var Deck=window.Deck={
-  open:function(i){ document.body.classList.add('presenting'); deck.setAttribute('aria-hidden','false'); Deck.go(i==null?cur:i); },
+  open:function(i){ document.body.classList.add('presenting'); fitStage(); deck.setAttribute('aria-hidden','false'); Deck.go(i==null?cur:i); },
   close:function(){ document.body.classList.remove('presenting'); deck.setAttribute('aria-hidden','true'); if(document.fullscreenElement) document.exitFullscreen().catch(function(){}); try{history.replaceState(null,'',location.pathname+location.search);}catch(e){} },
-  go:function(i){ cur=Math.max(0,Math.min(slides.length-1,i)); var s=slides[cur];
+  go:function(i){ cur=Math.max(0,Math.min(slides.length-1,i)); var s=slides[cur]; if(cur>0){ var hn=document.getElementById('hint'); if(hn) hn.style.display='none'; }
     slides.forEach(function(x,k){ x.classList.toggle('on',k===cur); x.classList.toggle('prev',k<cur); });
     document.getElementById('dCount').textContent='SLIDE '+String(cur+1).padStart(2,'0')+' / '+slides.length;
     document.getElementById('progress').style.width=((cur+1)/slides.length*100)+'%';
@@ -1203,7 +1235,7 @@ var Deck=window.Deck={
     setTimeout(function(){ s.querySelectorAll('.chart').forEach(function(el){ var sp=SLIDE[el.id]; if(!sp) return; if(!charts[el.id]) mount(el.id,sp[0],sp[1]); else { charts[el.id].inst.resize(); draw(el.id,true); } }); },80); },
   next:function(){ Deck.go(cur+1); }, prev:function(){ Deck.go(cur-1); },
   notes:function(){ notesOn=!notesOn; document.getElementById('notes').classList.toggle('on',notesOn); },
-  full:function(){ if(!document.fullscreenElement){ if(deck.requestFullscreen) deck.requestFullscreen().catch(function(){}); } else document.exitFullscreen().catch(function(){}); }
+  full:function(){ if(!document.fullscreenElement){ if(deck.requestFullscreen) deck.requestFullscreen().then(function(){ try{ if(screen.orientation&&screen.orientation.lock) screen.orientation.lock('landscape').catch(function(){}); }catch(e){} }).catch(function(){}); } else document.exitFullscreen().catch(function(){}); }
 };
 document.getElementById('btnPresent').addEventListener('click',function(){ Deck.open(cur); });
 document.getElementById('dPrev').addEventListener('click',Deck.prev); document.getElementById('dNext').addEventListener('click',Deck.next);
@@ -1220,8 +1252,8 @@ document.addEventListener('keydown',function(e){ if(e.target&&/input|textarea|se
   else if(k==='n'||k==='N') Deck.notes(); else if(k==='f'||k==='F') Deck.full();
   else if(k==='Escape'&&!document.fullscreenElement) Deck.close();
   else if(/^[1-9]$/.test(k)) Deck.go(+k-1); });
-var tx0=null; deck.addEventListener('touchstart',function(e){tx0=e.touches[0].clientX;},{passive:true});
-deck.addEventListener('touchend',function(e){ if(tx0==null) return; var dx=e.changedTouches[0].clientX-tx0; if(Math.abs(dx)>50){ dx<0?Deck.next():Deck.prev(); } tx0=null; });
+var tx0=null,ty0=null; deck.addEventListener('touchstart',function(e){tx0=e.touches[0].clientX;ty0=e.touches[0].clientY;},{passive:true});
+deck.addEventListener('touchend',function(e){ if(tx0==null) return; var dx=e.changedTouches[0].clientX-tx0, dy=e.changedTouches[0].clientY-ty0; var d = ROT? dy : dx; if(Math.abs(d)>50 && Math.abs(d)>Math.abs(ROT?dx:dy)){ d<0?Deck.next():Deck.prev(); } tx0=null; });
 var hint=document.getElementById('hint'); setTimeout(function(){ hint.style.transition='opacity 1s'; hint.style.opacity='0'; },7000);
 var mh=location.hash.match(/^#slide-(\d+)/); if(mh||qs.get('present')) Deck.open(mh?+mh[1]-1:0);
 if(qs.get('notes')){ Deck.notes(); }
