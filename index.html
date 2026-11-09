@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nhóm 5 · UTH · Xuất nhập khẩu hàng hóa Việt Nam theo thị trường 1995–2025 · Báo cáo nhóm Logistics</title>
 <meta name="description" content="Báo cáo nhóm: phân tích trị giá xuất khẩu, nhập khẩu hàng hóa của Việt Nam theo nước và vùng lãnh thổ (NSO, bảng V09.06, V09.12), mức độ tập trung thị trường và hàm ý cho tuyến vận tải, cảng biển, logistics.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* theme: uth-maritime-v4 — Nhóm 5 · UTH · editorial maritime identity */
 :root,[data-theme="dark"]{
@@ -22,9 +19,9 @@
   --pattern-size:48px 24px;
   --slide-bg:#0f1714;
   --radius:2px;
-  --serif:"Fraunces","Playfair Display",Georgia,"Times New Roman",serif;
-  --font:"Be Vietnam Pro","Segoe UI",Roboto,"Noto Sans",system-ui,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --serif:'Times New Roman', Times, 'Liberation Serif', Tinos, serif;
+  --font:'Times New Roman', Times, 'Liberation Serif', Tinos, serif;
+  --mono:'Times New Roman', Times, 'Liberation Serif', Tinos, serif;
 }
 [data-theme="light"]{
   --bg:#f7f3ea; --bg2:#fffdf7; --card:#fffdf7; --sub:#f2ecdf; --ink:#1d1b17; --ink2:#38342c; --muted:#6c6557;
@@ -338,9 +335,9 @@ th.sort.asc::after{content:" ↑";color:var(--accent)} th.sort.desc::after{conte
   .cover{break-inside:avoid}.manifest .stack{display:none}.manifest{padding:.8rem 1.2rem}.cv-main{padding:1.4rem 1.6rem}.cover h1{font-size:2rem}.manifest dl{grid-template-columns:auto 1fr;font-size:.78rem}
 }
 @page{size:A4;margin:16mm 14mm 18mm;
-  @bottom-left{content:"Nhóm 5 · Trường Đại học Giao thông Vận tải TP. Hồ Chí Minh (UTH)";font-family:"Be Vietnam Pro",sans-serif;font-size:8pt;color:#555}
-  @bottom-right{content:"Trang " counter(page) "/" counter(pages);font-family:"IBM Plex Mono",monospace;font-size:8pt;color:#555}
-  @top-right{content:"XNK Việt Nam theo thị trường · NSO V09.06, V09.12";font-family:"Be Vietnam Pro",sans-serif;font-size:7.5pt;color:#888}
+  @bottom-left{content:"Nhóm 5 · Trường Đại học Giao thông Vận tải TP. Hồ Chí Minh (UTH)";font-family:'Times New Roman', Times, 'Liberation Serif', Tinos, serif;font-size:8pt;color:#555}
+  @bottom-right{content:"Trang " counter(page) "/" counter(pages);font-family:'Times New Roman', Times, 'Liberation Serif', Tinos, serif;font-size:8pt;color:#555}
+  @top-right{content:"XNK Việt Nam theo thị trường · NSO V09.06, V09.12";font-family:'Times New Roman', Times, 'Liberation Serif', Tinos, serif;font-size:7.5pt;color:#888}
 }
 @page:first{@top-right{content:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important;animation:none!important}}
@@ -957,8 +954,8 @@ var root=document.documentElement;
 function cssv(n){ return getComputedStyle(root).getPropertyValue(n).trim(); }
 function pal(){ return {ink:cssv('--ink'),ink2:cssv('--ink2'),muted:cssv('--muted'),line:cssv('--line2'),bg:cssv('--bg2'),card:cssv('--bg2'),t:cssv('--t'),x:cssv('--x'),m:cssv('--m'),pos:cssv('--pos'),neg:cssv('--neg'),warn:cssv('--warn'),acc:cssv('--accent'),acc2:cssv('--accent2'),vi:cssv('--violet'),dark:root.getAttribute('data-theme')!=='light'}; }
 var SC=1; function FS(v){ return Math.round(v*SC); } function G(g){ var o={}; for(var k in g) o[k]=typeof g[k]==='number'?Math.round(g[k]*SC):g[k]; return o; }
-function tip(p,extra){ var o={backgroundColor:p.card,borderColor:p.line,textStyle:{color:p.ink,fontSize:FS(12)},confine:true}; for(var k in extra) o[k]=extra[k]; return o; }
-function base(p,o){ var b={backgroundColor:'transparent',animationDuration:700,textStyle:{fontFamily:'Be Vietnam Pro, system-ui, sans-serif',color:p.ink2,fontSize:FS(12)},legend:{top:0,textStyle:{color:p.ink2,fontSize:FS(12)},itemWidth:FS(18),itemHeight:FS(10),itemGap:FS(14)}}; for(var k in o) b[k]=o[k]; return b; }
+function tip(p,extra){ var o={backgroundColor:p.card,borderColor:p.line,textStyle:{color:p.ink,fontSize:FS(12),fontFamily:"'Times New Roman', Times, 'Liberation Serif', Tinos, serif"},confine:true}; for(var k in extra) o[k]=extra[k]; return o; }
+function base(p,o){ var b={backgroundColor:'transparent',animationDuration:700,textStyle:{fontFamily:"'Times New Roman', Times, 'Liberation Serif', Tinos, serif",color:p.ink2,fontSize:FS(12)},legend:{top:0,textStyle:{color:p.ink2,fontSize:FS(12)},itemWidth:FS(18),itemHeight:FS(10),itemGap:FS(14)}}; for(var k in o) b[k]=o[k]; return b; }
 function ax(p,extra){ var o={axisLine:{lineStyle:{color:p.line}},axisLabel:{color:p.muted,fontSize:FS(11)},axisTick:{show:false},splitLine:{lineStyle:{color:p.line,type:'dashed',opacity:.6}},nameTextStyle:{color:p.muted,fontSize:FS(11)}}; for(var k in extra) o[k]=extra[k]; if((o.type==='value'||o.type==='log')&&o.axisLabel&&!o.axisLabel.formatter&&o.axisLabel.show!==false){ var al={}; for(var q in o.axisLabel) al[q]=o.axisLabel[q]; al.formatter=function(v){ return nfA.format(v); }; o.axisLabel=al; } return o; }
 var nfA=new Intl.NumberFormat('vi-VN',{maximumFractionDigits:1});
 function rc(r){ return REGION_COLORS[r]||'#8a8577'; }
@@ -999,8 +996,8 @@ function raceOpt(dir){ return function(p,c){
     xAxis:ax(p,{type:'value',max:'dataMax',axisLabel:{color:p.muted,fontSize:FS(10)}}),
     yAxis:ax(p,{type:'category',inverse:true,max:9,data:list.map(function(q){return q.name;}),axisLabel:{color:p.ink2,fontSize:FS(12),fontWeight:600},animationDuration:300,animationDurationUpdate:300}),
     series:[{type:'bar',realtimeSort:true,data:list.map(function(q){ return {value:bn(q[dir][i])||0,itemStyle:{color:rc(q.region),borderRadius:[0,5,5,0]}}; }),
-      label:{show:true,position:'right',valueAnimation:true,color:p.ink,fontSize:FS(11),fontFamily:'IBM Plex Mono, monospace',formatter:function(q){ var pp=list[q.dataIndex]; return f1(q.value)+' · '+f1(sh(pp[dir][i],T[i]))+'%'; }},barMaxWidth:FS(26)}],
-    graphic:c.mini?[]:[{type:'text',right:FS(16),bottom:FS(30),style:{text:yLab[i],fill:p.muted,opacity:.35,font:'800 '+FS(40)+'px IBM Plex Mono, monospace'}}]
+      label:{show:true,position:'right',valueAnimation:true,color:p.ink,fontSize:FS(11),fontFamily:"'Times New Roman', Times, 'Liberation Serif', Tinos, serif",formatter:function(q){ var pp=list[q.dataIndex]; return f1(q.value)+' · '+f1(sh(pp[dir][i],T[i]))+'%'; }},barMaxWidth:FS(26)}],
+    graphic:c.mini?[]:[{type:'text',right:FS(16),bottom:FS(30),style:{text:yLab[i],fill:p.muted,opacity:.35,font:'800 '+FS(40)+'px "Times New Roman", Times, "Liberation Serif", Tinos, serif'}}]
   });
 };}
 OPTS.raceX=raceOpt('x'); OPTS.raceM=raceOpt('m');
@@ -1027,7 +1024,7 @@ OPTS.bal = function(p,c){
     grid:{left:FS(12),right:FS(60),top:FS(6),bottom:FS(24),containLabel:true}, xAxis:ax(p,{type:'value',name:'tỷ USD',nameLocation:'end'}),
     yAxis:ax(p,{type:'category',data:sel.map(function(s){return s.n;}),axisLabel:{color:p.ink2,fontSize:FS(11)},axisLine:{show:false}}),
     series:[{type:'bar',data:sel.map(function(s){return {value:bn(s.b),label:{position:s.b>=0?'right':'left'},itemStyle:{color:s.b>=0?p.pos:p.neg,borderRadius:s.b>=0?[0,4,4,0]:[4,0,0,4]}};}),barMaxWidth:FS(16),
-      label:{show:true,formatter:function(q){return sg(q.value);},color:p.ink2,fontSize:FS(c.fixed?12:10),fontFamily:'IBM Plex Mono, monospace'}}]});
+      label:{show:true,formatter:function(q){return sg(q.value);},color:p.ink2,fontSize:FS(c.fixed?12:10),fontFamily:"'Times New Roman', Times, 'Liberation Serif', Tinos, serif"}}]});
 };
 OPTS.uscn = function(p,c){
   var us=PBY['Hoa Kỳ'], cn=PBY['CHND Trung Hoa'];
@@ -1046,7 +1043,7 @@ OPTS.gauge = function(p,c){
     axisTick:{distance:-FS(14),length:FS(5),lineStyle:{color:p.bg,width:1}},splitLine:{distance:-FS(14),length:FS(14),lineStyle:{color:p.bg,width:2}},
     axisLabel:{distance:FS(18),color:p.muted,fontSize:FS(9),formatter:function(v){return (v===0||v===3000)?'':f0(v);}},
     title:{offsetCenter:[0,'72%'],color:p.ink2,fontSize:FS(12),fontWeight:700},
-    detail:{valueAnimation:true,offsetCenter:[0,'40%'],fontSize:FS(24),fontWeight:800,fontFamily:'IBM Plex Mono, monospace',color:col,formatter:function(v){return f0(v);}},
+    detail:{valueAnimation:true,offsetCenter:[0,'40%'],fontSize:FS(24),fontWeight:800,fontFamily:"'Times New Roman', Times, 'Liberation Serif', Tinos, serif",color:col,formatter:function(v){return f0(v);}},
     data:[{value:Math.round(val),name:name}]}; }
   return base(p,{legend:{show:false},series:[g('HHI xuất khẩu',hhi('x',i),['26%','56%'],p.x),g('HHI nhập khẩu',hhi('m',i),['74%','56%'],p.m)],
     graphic:[{type:'text',left:'center',bottom:2,style:{text:'Thang 0–3.000 (tối đa lý thuyết 10.000) · '+yLab[i],fill:p.muted,fontSize:FS(10)}}]});
